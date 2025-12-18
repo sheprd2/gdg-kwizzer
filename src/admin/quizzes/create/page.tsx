@@ -1,68 +1,92 @@
-'use client'
+"use client";
 
-import { useState, useEffect } from 'react'
-import { useAuth } from '../../../contexts/AuthContext'
-import { useNavigate, Link } from 'react-router-dom'
-import { firestoreService } from '../../../lib/firestore'
-import { Button, Card, Input } from '../../../components/ui'
+import { useState, useEffect } from "react";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useNavigate, Link } from "react-router-dom";
+import { firestoreService } from "../../../lib/firestore";
+import { Button, Card, Input } from "../../../components/ui";
 
-const OPTION_COLORS = ['bg-red-500', 'bg-blue-500', 'bg-yellow-500', 'bg-green-500']
-const OPTION_LABELS = ['A', 'B', 'C', 'D']
+const OPTION_COLORS = [
+  "option-red",
+  "option-blue",
+  "option-yellow",
+  "option-green",
+];
+const OPTION_LABELS = ["A", "B", "C", "D"];
 
 interface QuestionData {
-  text: string
-  options: string[]
-  correctAnswer: number
-  timeLimit: number
+  text: string;
+  options: string[];
+  correctAnswer: number;
+  timeLimit: number;
 }
 
 export default function CreateQuizPage() {
-  const { user, isAdmin } = useAuth()
-  const navigate = useNavigate()
+  const { user, isAdmin } = useAuth();
+  const navigate = useNavigate();
 
-  const [title, setTitle] = useState('')
-  const [description, setDescription] = useState('')
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState<QuestionData[]>([
-    { text: '', options: ['', '', '', ''], correctAnswer: 0, timeLimit: 30 }
-  ])
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+    { text: "", options: ["", "", "", ""], correctAnswer: 0, timeLimit: 30 },
+  ]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     if (!isAdmin) {
-      navigate('/')
+      navigate("/");
     }
-  }, [isAdmin, navigate])
+  }, [isAdmin, navigate]);
 
   const addQuestion = () => {
-    setQuestions([...questions, { text: '', options: ['', '', '', ''], correctAnswer: 0, timeLimit: 30 }])
-  }
+    setQuestions([
+      ...questions,
+      { text: "", options: ["", "", "", ""], correctAnswer: 0, timeLimit: 30 },
+    ]);
+  };
 
   const removeQuestion = (index: number) => {
-    setQuestions(questions.filter((_, i) => i !== index))
-  }
+    setQuestions(questions.filter((_, i) => i !== index));
+  };
 
-  const updateQuestion = (qIndex: number, field: keyof QuestionData, value: any) => {
-    const updated = [...questions]
-    updated[qIndex] = { ...updated[qIndex], [field]: value }
-    setQuestions(updated)
-  }
+  const updateQuestion = (
+    qIndex: number,
+    field: keyof QuestionData,
+    value: any
+  ) => {
+    const updated = [...questions];
+    updated[qIndex] = { ...updated[qIndex], [field]: value };
+    setQuestions(updated);
+  };
 
   const updateOption = (qIndex: number, oIndex: number, value: string) => {
-    const updated = [...questions]
-    updated[qIndex].options[oIndex] = value
-    setQuestions(updated)
-  }
+    const updated = [...questions];
+    updated[qIndex].options[oIndex] = value;
+    setQuestions(updated);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!title.trim()) { setError('Please enter a quiz title'); return }
-    if (questions.some(q => !q.text.trim())) { setError('Please complete all questions'); return }
-    if (questions.some(q => q.options.some(opt => !opt.trim()))) { setError('Please complete all options'); return }
-    if (!user) { setError('You must be logged in'); return }
+    e.preventDefault();
+    if (!title.trim()) {
+      setError("Please enter a quiz title");
+      return;
+    }
+    if (questions.some((q) => !q.text.trim())) {
+      setError("Please complete all questions");
+      return;
+    }
+    if (questions.some((q) => q.options.some((opt) => !opt.trim()))) {
+      setError("Please complete all options");
+      return;
+    }
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
 
-    setLoading(true)
-    setError('')
+    setLoading(true);
+    setError("");
 
     try {
       const quizId = await firestoreService.createQuiz({
@@ -71,33 +95,33 @@ export default function CreateQuizPage() {
         questions: questions.map((q, i) => ({
           id: `q${i}`,
           text: q.text.trim(),
-          options: q.options.map(opt => opt.trim()),
+          options: q.options.map((opt) => opt.trim()),
           correctAnswer: q.correctAnswer,
-          timeLimit: q.timeLimit
+          timeLimit: q.timeLimit,
         })),
-        createdBy: user.uid
-      })
-      navigate(`/admin/quizzes/${quizId}`)
+        createdBy: user.uid,
+      });
+      navigate(`/admin/quizzes/${quizId}`);
     } catch (err: any) {
-      setError(err.message || 'Failed to create quiz')
+      setError(err.message || "Failed to create quiz");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen p-4 sm:p-6 md:p-8 lg:p-10 bg-white w-full">
+    <div className="create-quiz-container">
       <div className="w-full">
-        <h1 className="text-3xl font-black text-black text-center mb-6">Create Quiz</h1>
+        <h1 className="create-quiz-title">Create Quiz</h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="flex gap-6">
+        <form onSubmit={handleSubmit} className="create-quiz-form">
+          <div className="create-quiz-inputs">
             <Input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Quiz Title"
-              className="text-lg flex-1"
+              className="create-input-field"
               required
             />
             <Input
@@ -105,7 +129,7 @@ export default function CreateQuizPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Description (optional)"
-              className="text-lg flex-1"
+              className="create-input-field"
             />
           </div>
 
@@ -116,99 +140,122 @@ export default function CreateQuizPage() {
               variant="default"
               padding="md"
             >
-              <div className="flex justify-between items-center mb-3">
-                <span className="font-bold text-black text-lg">Question {qIndex + 1}</span>
+              <div className="create-question-header">
+                <span className="create-question-label">
+                  Question {qIndex + 1}
+                </span>
                 {questions.length > 1 && (
-                  <Button type="button" size="sm" variant="ghost" onClick={() => removeQuestion(qIndex)}>
+                  <Button
+                    type="button"
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => removeQuestion(qIndex)}
+                  >
                     Remove
                   </Button>
                 )}
               </div>
-              <div className="space-y-3 p-4">
+              <div className="create-question-content">
                 <Input
                   type="text"
                   value={question.text}
-                  onChange={(e) => updateQuestion(qIndex, 'text', e.target.value)}
+                  onChange={(e) =>
+                    updateQuestion(qIndex, "text", e.target.value)
+                  }
                   placeholder="Enter question..."
-                  className="text-base"
+                  className="create-question-input"
                   required
                 />
 
-                <div className="space-y-2 mb-3">
+                <div className="create-options-list">
                   {question.options.map((option, oIndex) => (
                     <div
                       key={oIndex}
-                      onClick={() => updateQuestion(qIndex, 'correctAnswer', oIndex)}
-                      className={`relative cursor-pointer transition-all flex items-center gap-3 p-3 border-2 rounded-lg ${
-                        question.correctAnswer === oIndex 
-                          ? 'border-black bg-black/5' 
-                          : 'border-black/20 hover:border-black/40'
+                      onClick={() =>
+                        updateQuestion(qIndex, "correctAnswer", oIndex)
+                      }
+                      className={`create-option-item ${
+                        question.correctAnswer === oIndex
+                          ? "create-option-selected"
+                          : ""
                       }`}
                     >
-                      <div className={`w-8 h-8 rounded ${OPTION_COLORS[oIndex]} flex items-center justify-center shrink-0 mr-2`}>
-                        <span className="text-white text-sm font-bold">{OPTION_LABELS[oIndex]}</span>
+                      <div
+                        className={`create-option-label ${OPTION_COLORS[oIndex]}`}
+                      >
+                        <span className="create-option-text">
+                          {OPTION_LABELS[oIndex]}
+                        </span>
                       </div>
                       <Input
                         type="text"
                         value={option}
-                        onChange={(e) => updateOption(qIndex, oIndex, e.target.value)}
+                        onChange={(e) =>
+                          updateOption(qIndex, oIndex, e.target.value)
+                        }
                         placeholder={`Option ${OPTION_LABELS[oIndex]}`}
-                        className="bg-white border-black/20 text-black placeholder:text-black/40 flex-1"
+                        className="create-option-input"
                         required
                       />
                       {question.correctAnswer === oIndex && (
-                        <span className="text-xs bg-black text-white px-2 py-1 rounded font-bold ml-2">Correct</span>
+                        <span className="create-correct-badge">Correct</span>
                       )}
                     </div>
                   ))}
                 </div>
 
-                <div className="flex items-center gap-3 text-sm p-3 bg-black/5 rounded-lg">
-                  <span className="text-black">Time:</span>
+                <div className="create-time-control">
+                  <span className="create-time-label">Time:</span>
                   <Input
                     type="number"
                     value={question.timeLimit}
-                    onChange={(e) => updateQuestion(qIndex, 'timeLimit', parseInt(e.target.value) || 30)}
+                    onChange={(e) =>
+                      updateQuestion(
+                        qIndex,
+                        "timeLimit",
+                        parseInt(e.target.value) || 30
+                      )
+                    }
                     min="5"
                     max="120"
-                    className="w-20 text-center"
+                    className="create-time-input"
                   />
-                  <span className="text-black">sec</span>
+                  <span className="create-time-label">sec</span>
                 </div>
               </div>
             </Card>
           ))}
 
-          <div className="mt-6">
+          <div className="create-add-button-container">
             <Button
               type="button"
               onClick={addQuestion}
-              className="w-full"
+              className="create-add-button"
               variant="ghost"
             >
               + Add Question
             </Button>
           </div>
 
-          {error && <p className="text-red-500 text-center text-sm">{error}</p>}
+          {error && <p className="create-error">{error}</p>}
 
-          <div className="flex gap-3">
-            <Link to="/admin/quizzes" className="flex-1">
-              <Button type="button" className="w-full">
+          <div className="create-button-group">
+            <Link to="/admin/quizzes" className="create-cancel-button">
+              <Button type="button" className="create-cancel-button-inner">
                 Cancel
               </Button>
             </Link>
             <Button
               type="submit"
               disabled={loading}
-              className="w-full"
+              className="create-submit-button"
               variant="primary"
             >
-              {loading ? 'Creating...' : 'Create Quiz'}
+              {loading ? "Creating..." : "Create Quiz"}
             </Button>
           </div>
         </form>
       </div>
     </div>
-  )
+  );
 }

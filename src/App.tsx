@@ -15,8 +15,8 @@ function App() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="w-10 h-10 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+      <div className="app-loading-container">
+        <div className="app-spinner"></div>
       </div>
     )
   }
@@ -38,3 +38,4 @@ function App() {
 }
 
 export default App
+
