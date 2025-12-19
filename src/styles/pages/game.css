@@ -1,0 +1,353 @@
+/* ============================================
+   GAME PAGE (Player View)
+   ============================================ */
+
+/* Shared Game Page Styles */
+.game-center-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Lobby Phase */
+.game-lobby-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background-color: white;
+}
+
+.lobby-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 1.5rem;
+}
+
+.lobby-welcome {
+  margin-bottom: 2rem;
+}
+
+.lobby-welcome-name {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.lobby-welcome-message {
+  font-size: 1.125rem;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 1rem;
+}
+
+.lobby-info {
+  margin-bottom: 1.5rem;
+}
+
+.lobby-code {
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.lobby-code-value {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.lobby-players {
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.lobby-players-count {
+  font-weight: 700;
+}
+
+.lobby-waiting {
+  text-align: center;
+}
+
+.lobby-waiting-text {
+  color: rgba(0, 0, 0, 0.7);
+  font-weight: 500;
+}
+
+/* Question Phase */
+.game-question-container {
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: white;
+}
+
+.game-question-wrapper {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.game-question-header {
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.game-question-number {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.game-timer {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.game-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .game-options-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.game-submit-section {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.game-submitted-section {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.game-submitted-text {
+  color: black;
+  font-weight: 700;
+}
+
+/* Results Phase */
+.game-results-container {
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: white;
+}
+
+.game-results-wrapper {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.game-result-banner {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: var(--radius-lg);
+  text-align: center;
+}
+
+.game-result-no-answer {
+  background-color: #f3f4f6;
+  border: 2px solid #d1d5db;
+}
+
+.game-result-correct {
+  background-color: #f0fdf4;
+  border: 2px solid #22c55e;
+}
+
+.game-result-wrong {
+  background-color: #fef2f2;
+  border: 2px solid #ef4444;
+}
+
+.game-result-status {
+  font-size: 1.875rem;
+  font-weight: 900;
+  margin-bottom: 0.25rem;
+}
+
+.game-result-status-no-answer {
+  color: #4b5563;
+}
+
+.game-result-status-correct {
+  color: #16a34a;
+}
+
+.game-result-status-wrong {
+  color: #dc2626;
+}
+
+.game-result-message {
+  font-size: 0.875rem;
+}
+
+.game-result-message-no-answer {
+  color: #6b7280;
+}
+
+.game-result-message-correct {
+  color: #22c55e;
+}
+
+.game-result-message-wrong {
+  color: #ef4444;
+}
+
+.game-results-question-meta {
+  font-size: 0.875rem;
+  color: rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.game-results-question-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.game-correct-answer {
+  background-color: #f0fdf4;
+  border: 2px solid #22c55e;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+}
+
+.game-answer-label-correct {
+  font-size: 0.875rem;
+  color: #16a34a;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.game-answer-value-correct {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #15803d;
+}
+
+.game-user-answer {
+  background-color: #fef2f2;
+  border: 2px solid #fca5a5;
+  border-radius: var(--radius-md);
+  padding: 1rem;
+  margin-top: 0.75rem;
+}
+
+.game-answer-label-wrong {
+  font-size: 0.875rem;
+  color: #ef4444;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.game-answer-value-wrong {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #991b1b;
+}
+
+.game-results-waiting {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.game-results-waiting-text {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 0.875rem;
+}
+
+/* Game Over Phase */
+.game-over-container {
+  min-height: 100vh;
+  padding: 1rem;
+  background-color: white;
+}
+
+.game-over-wrapper {
+  max-width: 48rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.game-over-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.game-over-results-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.game-over-results-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1rem;
+}
+
+.game-over-stat {
+  text-align: center;
+}
+
+.game-over-stat-value {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.game-over-stat-label {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.game-over-message {
+  font-size: 1.125rem;
+  color: black;
+}
+
+.game-over-leaderboard-section {
+  margin-bottom: 2rem;
+}
+
+.game-over-leaderboard-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.game-over-no-data {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.game-over-no-data-text {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.game-over-action {
+  text-align: center;
+}

@@ -1,0 +1,138 @@
+/* ============================================
+   INPUT COMPONENTS
+   ============================================ */
+
+/* Base Input Styles */
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background-color: var(--input);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--foreground);
+  font-size: 1rem;
+  transition: all var(--transition-normal);
+}
+
+.input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Join Page Inputs */
+.join-pin-input {
+  width: 100%;
+  padding: 1rem 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  border: 2px solid black;
+  border-radius: var(--radius-lg);
+  background-color: transparent;
+  color: black;
+  transition: all var(--transition-normal);
+}
+
+.join-pin-input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.join-pin-input:focus {
+  outline: none;
+  border-color: var(--color-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.join-nickname-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  text-align: center;
+  font-size: 1.125rem;
+  font-weight: 500;
+  border: 2px solid black;
+  border-radius: var(--radius-lg);
+  background-color: transparent;
+  color: black;
+  transition: all var(--transition-normal);
+}
+
+.join-nickname-input::placeholder {
+  color: rgba(0, 0, 0, 0.3);
+}
+
+.join-nickname-input:focus {
+  outline: none;
+  border-color: var(--color-green);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+/* Create Quiz Inputs */
+.create-input-field {
+  font-size: 1.125rem;
+  flex: 1;
+}
+
+.create-question-input {
+  font-size: 1rem;
+}
+
+.create-option-input {
+  background-color: white;
+  border-color: rgba(0, 0, 0, 0.2);
+  color: black;
+  flex: 1;
+}
+
+.create-option-input::placeholder {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+.create-time-input {
+  width: 5rem;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+/* Quiz Detail Inputs */
+.quiz-detail-time-input {
+  width: 4rem;
+  padding: 0.5rem;
+  text-align: center;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: var(--radius-md);
+  background-color: white;
+  color: black;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all var(--transition-normal);
+}
+
+.quiz-detail-time-input:focus {
+  outline: none;
+  border-color: black;
+}
+
+/* Form Elements */
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}

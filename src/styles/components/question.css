@@ -1,0 +1,85 @@
+/* ============================================
+   QUESTION TEXT COMPONENT
+   ============================================ */
+
+.question-container {
+  width: 100%;
+  max-width: 64rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2rem;
+}
+
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 0 0.5rem;
+}
+
+.question-badge {
+  color: black;
+  font-weight: 500;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  border: 1px solid black;
+}
+
+.question-timer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  border: 1px solid black;
+}
+
+.timer-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background-color: black;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.timer-text {
+  color: black;
+  font-weight: 700;
+  font-size: 0.875rem;
+}
+
+.question-box {
+  background-color: white;
+  color: black;
+  padding: 2rem;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  text-align: center;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+}
+
+@media (min-width: 768px) {
+  .question-box {
+    padding: 3rem;
+  }
+}
+
+.question-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+@media (min-width: 768px) {
+  .question-title {
+    font-size: 2.25rem;
+  }
+}

@@ -89,12 +89,22 @@ export default function GamePage() {
   }
 
   if (!game || !quiz) {
+    // Auto-redirect to home if game doesn't exist
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 2000); // Redirect after 2 seconds
+      
+      return () => clearTimeout(timer);
+    }, [navigate]);
+
     return (
       <div className="game-center-container">
         <Card variant="default" padding="lg" className="text-center">
           <h2 className="game-error-title">Game not found</h2>
+          <p className="game-error-message">Redirecting you to home...</p>
           <button onClick={() => navigate("/")} className="game-error-button">
-            Back to Home
+            Go to Home Now
           </button>
         </Card>
       </div>
@@ -102,12 +112,22 @@ export default function GamePage() {
   }
 
   if (!currentPlayer) {
+    // Auto-redirect to home if user is not in the game
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        navigate("/");
+      }, 2000); // Redirect after 2 seconds
+      
+      return () => clearTimeout(timer);
+    }, [navigate]);
+
     return (
       <div className="game-center-container">
         <Card variant="default" padding="lg" className="text-center">
           <h2 className="game-error-title">Not in game</h2>
+          <p className="game-error-message">You're not part of this game. Redirecting to home...</p>
           <button onClick={() => navigate("/")} className="game-error-button">
-            Back to Home
+            Go to Home Now
           </button>
         </Card>
       </div>
@@ -262,7 +282,7 @@ export default function GamePage() {
                   : "game-result-status-wrong"
               }`}
             >
-              {!didAnswer ? "Time's Up!" : isCorrect ? "Correct!" : "✗ Wrong"}
+              {!didAnswer ? "Time's Up!" : isCorrect ? "Correct!" : "Wrong"}
             </div>
             <p
               className={`game-result-message ${
@@ -309,7 +329,7 @@ export default function GamePage() {
           </Card>
 
           {/* Show leaderboard */}
-          <Leaderboard entries={leaderboard} />
+          <Leaderboard entries={leaderboard} currentPlayerId={user?.uid} />
 
           <div className="game-results-waiting">
             <p className="game-results-waiting-text">

@@ -1,0 +1,139 @@
+/* ============================================
+   LEADERBOARD COMPONENT
+   ============================================ */
+
+.leaderboard {
+  background-color: white;
+  backdrop-filter: blur(12px);
+  border: 2px solid black;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 2px solid black;
+}
+
+.leaderboard-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: black;
+}
+
+.leaderboard-live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+  color: black;
+}
+
+.live-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: black;
+  border-radius: 50%;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.leaderboard-entries {
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-empty {
+  padding: 2rem;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.leaderboard-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  transition: background-color var(--transition-normal);
+}
+
+.leaderboard-entry:last-child {
+  border-bottom: none;
+}
+
+.leaderboard-entry.current-player {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.leaderboard-player-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.leaderboard-rank {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  border: 2px solid;
+}
+
+.rank-gold {
+  background-color: #facc15;
+  color: #713f12;
+  border-color: #eab308;
+  font-weight: 900;
+}
+
+.rank-silver {
+  background-color: #d1d5db;
+  color: #374151;
+  border-color: #9ca3af;
+  font-weight: 700;
+}
+
+.rank-bronze {
+  background-color: #b45309;
+  color: #fef3c7;
+  border-color: #92400e;
+  font-weight: 700;
+}
+
+.rank-default {
+  background-color: white;
+  color: black;
+  border-color: black;
+}
+
+.leaderboard-player-name {
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.leaderboard-player-name.current {
+  color: black;
+}
+
+.leaderboard-you-badge {
+  margin-left: 0.5rem;
+  font-size: 0.75rem;
+  background-color: black;
+  color: white;
+  padding: 0.125rem 0.5rem;
+  border-radius: 9999px;
+  font-weight: 700;
+}
+
+.leaderboard-score {
+  font-family: monospace;
+  font-weight: 700;
+  color: black;
+  font-size: 1.125rem;
+}

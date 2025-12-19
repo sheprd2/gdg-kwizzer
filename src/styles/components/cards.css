@@ -1,0 +1,54 @@
+/* ============================================
+   CARD COMPONENTS
+   ============================================ */
+
+.card {
+  background-color: var(--muted);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem;
+  transition: all var(--transition-normal);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Lobby Card */
+.lobby-card {
+  width: 100%;
+  max-width: 28rem;
+  text-align: center;
+}
+
+/* Game Results Card */
+.game-results-card {
+  margin-bottom: 1.5rem;
+}
+
+/* Game Over Card */
+.game-over-card {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+/* Host Error Card */
+.host-error-card {
+  text-align: center;
+}
+
+/* Host Setup Card */
+.host-setup-card {
+  margin-bottom: 2rem;
+}
+
+/* Quiz Empty Card */
+.quizzes-empty-card {
+  text-align: center;
+}
+
+/* Quiz Detail Error Card */
+.quiz-detail-error-card {
+  text-align: center;
+  max-width: 28rem;
+}

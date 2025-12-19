@@ -240,11 +240,14 @@ function GameHost({ game, quiz }: { game: Game; quiz: Quiz }) {
   // Calculate time left from server-side timer
   const timeLeft = currentGame.timeLeft || 0;
 
-  // Show answer when timer runs out
+  // Show answer when timer runs out, reset when new question starts
   useEffect(() => {
     if (currentGame.phase === "questionLive" && timeLeft === 0) {
       setShowAnswer(true);
     } else if (currentGame.phase === "results") {
+      setShowAnswer(false);
+    } else if (currentGame.phase === "questionLive" && timeLeft > 0) {
+      // Reset when a new question starts (timeLeft > 0 means fresh question)
       setShowAnswer(false);
     }
   }, [currentGame.phase, timeLeft]);
@@ -272,100 +275,25 @@ function GameHost({ game, quiz }: { game: Game; quiz: Quiz }) {
     }
   }
 
-  // Calculate points based on answer speed
-  function calculatePoints(
-    answerTime: Date | any,
-    questionStartTime: Date | any,
-    timeLimit: number
-  ): number {
-    // Convert Firestore Timestamps to Date if needed
-    const answerDate = answerTime?.toDate
-      ? answerTime.toDate()
-      : new Date(answerTime);
-    const startDate = questionStartTime?.toDate
-      ? questionStartTime.toDate()
-      : new Date(questionStartTime);
-
-    const answerDuration = answerDate.getTime() - startDate.getTime();
-    const maxTime = timeLimit * 1000; // Convert to milliseconds
-
-    // Base points for correct answer
-    const basePoints = 100;
-
-    // Time bonus: faster answers get more points
-    // If answered instantly (0ms), get full bonus of 50 points
-    // If answered at the last second, get 0 bonus points
-    const timeRatio = Math.max(0, Math.min(1, 1 - answerDuration / maxTime));
-    const timeBonus = Math.round(timeRatio * 50);
-
-    return basePoints + timeBonus;
-  }
-
   async function handleShowResults() {
     if (processing) return;
     setProcessing(true);
     try {
-      console.log("[GameHost] Showing results");
-
-      // Get fresh player data to avoid stale scores
-      const currentPlayers = await firestoreService.getGamePlayers(game.id);
-
-      // Calculate scores based on answers
-      const answers = await firestoreService.getQuestionAnswers(
-        game.id,
-        currentGame.currentQuestionIndex
-      );
-      const question = quiz.questions[currentGame.currentQuestionIndex];
-
-      // Get question start time from game data or use current time as fallback
-      const questionStartTime =
-        currentGame.questionStartTime ||
-        new Date(Date.now() - (question.timeLimit || 30) * 1000);
-
-      // Update player scores with time-based points
-      for (const answer of answers) {
-        if (answer.selectedOption === question.correctAnswer) {
-          const player = currentPlayers.find((p) => p.id === answer.playerId);
-          if (player) {
-            const points = calculatePoints(
-              answer.answeredAt,
-              questionStartTime,
-              question.timeLimit || 30
-            );
-            const newScore = (player.score || 0) + points;
-            await firestoreService.updatePlayerScore(
-              game.id,
-              answer.playerId,
-              newScore
-            );
-            console.log(
-              `[GameHost] Player ${
-                player.name
-              } earned ${points} points (base: 100, time bonus: ${
-                points - 100
-              })`
-            );
-          }
-        }
-      }
-
-      // Fetch updated players after score updates and build leaderboard
-      const updatedPlayers = await firestoreService.getGamePlayers(game.id);
-      const leaderboardEntries = updatedPlayers
-        .sort((a, b) => (b.score || 0) - (a.score || 0))
-        .map((p, i) => ({
-          playerId: p.id,
-          playerName: p.name,
-          score: p.score || 0,
-          rank: i + 1,
-        }));
-
-      console.log(
-        "[GameHost] Updating leaderboard with entries:",
-        leaderboardEntries
-      );
-      await firestoreService.updateLeaderboard(game.id, leaderboardEntries);
-      await firestoreService.updateGame(game.id, { phase: "results" });
+      console.log("[GameHost] Manually transitioning to results phase");
+      
+      // Clear the timer since we're ending early
+      GameTimer.clearTimer(game.id);
+      
+      // Calculate scores for the current question (important when ending early)
+      await GameTimer.calculateAndUpdateScores(game.id, currentGame.currentQuestionIndex || 0);
+      
+      // Update the game phase to results
+      await firestoreService.updateGame(game.id, { 
+        phase: "results",
+        timeLeft: 0
+      });
+      
+      console.log("[GameHost] Successfully transitioned to results phase with scores calculated");
     } catch (error) {
       console.error("[GameHost] Error showing results:", error);
     } finally {
@@ -377,6 +305,9 @@ function GameHost({ game, quiz }: { game: Game; quiz: Quiz }) {
     if (processing) return;
     setProcessing(true);
     try {
+      // Reset showAnswer state when moving to next question
+      setShowAnswer(false);
+      
       const nextIndex = currentGame.currentQuestionIndex + 1;
       if (nextIndex >= quiz.questions.length) {
         // Game ended
@@ -480,7 +411,7 @@ function GameHost({ game, quiz }: { game: Game; quiz: Quiz }) {
                   >
                     {processing
                       ? "Processing..."
-                      : "End Question & Show Results"}
+                      : "Show Results"}
                   </button>
                 ) : (
                   <button
