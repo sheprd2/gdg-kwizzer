@@ -10,7 +10,7 @@ import { Button, Card } from "../../components/ui";
 import { GameTimer } from "../../lib/gameTimer";
 
 function HostPageContent() {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const quizId = searchParams.get("quiz") || searchParams.get("quizId");
@@ -26,11 +26,6 @@ function HostPageContent() {
   const game = liveGame;
 
   useEffect(() => {
-    if (!isAdmin) {
-      navigate("/");
-      return;
-    }
-
     async function loadQuiz() {
       if (!quizId || !user) {
         setLoading(false);
@@ -52,7 +47,7 @@ function HostPageContent() {
     }
 
     loadQuiz();
-  }, [quizId, user, isAdmin, navigate]);
+  }, [quizId, user, navigate]);
 
   async function createGame() {
     if (!quiz || !user) return;

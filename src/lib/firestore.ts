@@ -152,6 +152,7 @@ export const firestoreService = {
       const q = query(
         collection(db, 'games'),
         where('joinCode', '==', joinCode),
+        where('phase', '==', 'lobby'),
         limit(1)
       )
       const querySnapshot = await getDocs(q)

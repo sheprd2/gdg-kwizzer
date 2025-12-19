@@ -8,17 +8,12 @@ import { Button, Card, Spinner } from "../../components/ui";
 import type { Quiz } from "../../types/firebase";
 
 export default function QuizzesPage() {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!isAdmin) {
-      navigate("/");
-      return;
-    }
-
     const loadQuizzes = async () => {
       try {
         const userQuizzes = await firestoreService.getQuizzesByCreator(
@@ -33,7 +28,7 @@ export default function QuizzesPage() {
     };
 
     loadQuizzes();
-  }, [isAdmin, navigate, user]);
+  }, [navigate, user]);
 
   const handleDelete = async (quizId: string) => {
     if (!confirm("Are you sure you want to delete this quiz?")) return;
@@ -123,7 +118,7 @@ export default function QuizzesPage() {
                           firestoreService
                             .deleteQuiz(quiz.id)
                             .then(() => {
-                              navigate("/admin/quizzes");
+                              setQuizzes((prev) => prev.filter((q) => q.id !== quiz.id));
                             })
                             .catch((err: Error) => {
                               alert("Failed to delete quiz: " + err.message);

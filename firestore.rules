@@ -2,13 +2,6 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Helper function to check if user is admin
-    function isAdmin() {
-      return request.auth != null && (
-        request.auth.token.email == 'samchalissery24bcs41@iiitkottayam.ac.in' ||
-        request.auth.token.email == 'mathew2103@gmail.com'
-      );
-    }
     
     // Helper function to check if user is authenticated
     function isAuthenticated() {
@@ -24,22 +17,22 @@ service cloud.firestore {
     // Quizzes collection
     match /quizzes/{quizId} {
       allow read: if isAuthenticated();
-      allow create: if isAdmin() && request.resource.data.createdBy == request.auth.uid;
-      allow update, delete: if isAdmin() && resource.data.createdBy == request.auth.uid;
+      allow create: if request.resource.data.createdBy == request.auth.uid;
+      allow update, delete: if resource.data.createdBy == request.auth.uid;
     }
 
     // Games collection
     match /games/{gameId} {
       allow read: if isAuthenticated();
-      allow create: if isAdmin() && request.resource.data.hostId == request.auth.uid;
-      allow update: if isAdmin() && resource.data.hostId == request.auth.uid;
-      allow delete: if isAdmin() && resource.data.hostId == request.auth.uid;
+      allow create: if request.resource.data.hostId == request.auth.uid;
+      allow update: if resource.data.hostId == request.auth.uid;
+      allow delete: if resource.data.hostId == request.auth.uid;
 
       // Players subcollection - any authenticated user can join
       match /players/{playerId} {
         allow read: if isAuthenticated();
         allow create: if isAuthenticated() && playerId == request.auth.uid;
-        allow update, delete: if isAuthenticated() && (isAdmin() || playerId == request.auth.uid);
+        allow update, delete: if isAuthenticated() && playerId == request.auth.uid;
       }
 
       // Answers subcollection - any authenticated user can submit answers

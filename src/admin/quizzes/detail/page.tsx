@@ -8,7 +8,6 @@ import { Quiz, Question } from "../../../types/firebase";
 import { Button, Card, Spinner, EditableText } from "../../../components/ui";
 
 export default function QuizDetailPage() {
-  const { isAdmin } = useAuth();
   const params = useParams();
   const navigate = useNavigate();
   const [quiz, setQuiz] = useState<Quiz | null>(null);
@@ -19,10 +18,6 @@ export default function QuizDetailPage() {
   const quizId = params.quizId as string;
 
   useEffect(() => {
-    if (!isAdmin) {
-      navigate("/");
-      return;
-    }
 
     async function loadQuiz() {
       if (!quizId) {
@@ -42,7 +37,7 @@ export default function QuizDetailPage() {
     }
 
     loadQuiz();
-  }, [quizId, isAdmin, navigate]);
+  }, [quizId, navigate]);
 
   const handleUpdateQuiz = async (field: keyof Quiz, value: any) => {
     if (!quiz) return;

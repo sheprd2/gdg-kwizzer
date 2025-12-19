@@ -4,7 +4,7 @@ import { useAuth } from "./contexts/AuthContext";
 import { Link } from "react-router-dom";
 
 export default function HomePage() {
-  const { user, loading, isAdmin, signOut } = useAuth();
+  const { user, loading, signOut } = useAuth();
 
   if (loading) {
     return (
@@ -23,7 +23,6 @@ export default function HomePage() {
       <h1 className="home-title">KWIZZER</h1>
 
       <div className="home-buttons-grid">
-        {isAdmin ? (
           <>
             <Link to="/admin/quizzes">
               <button className="home-button home-button-outline">
@@ -35,22 +34,20 @@ export default function HomePage() {
                 Create Quiz
               </button>
             </Link>
-          </>
-        ) : (
-          <Link to="/play/join">
+            <Link to="/play/join">
             <button className="home-button home-button-filled">
               Join Game
             </button>
           </Link>
-        )}
+          </>
+        
 
         <button onClick={signOut} className="home-button home-signout-button">
           Sign Out
         </button>
       </div>
       <p className="home-user-info">
-        Logged in as {user.displayName || user.email?.split("@")[0]} (
-        {isAdmin ? "Admin" : "Player"})
+        Logged in as {user.displayName || user.email?.split("@")[0]}
       </p>
     </div>
   );

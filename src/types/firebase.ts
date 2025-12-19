@@ -67,9 +67,6 @@ export interface User {
   uid: string
   email?: string
   displayName?: string
-  role: UserRole
   createdAt: Date
   lastLogin?: Date
 }
-
-export type UserRole = 'admin' | 'player'

@@ -22,7 +22,7 @@ interface QuestionData {
 }
 
 export default function CreateQuizPage() {
-  const { user, isAdmin } = useAuth();
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
@@ -32,12 +32,6 @@ export default function CreateQuizPage() {
   ]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (!isAdmin) {
-      navigate("/");
-    }
-  }, [isAdmin, navigate]);
 
   const addQuestion = () => {
     setQuestions([

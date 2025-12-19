@@ -117,19 +117,6 @@ firebase deploy --only storage:rules
 4. Enter your nickname
 5. Wait for the host to start
 
-## Admin Access
-
-Admin privileges are controlled via Firestore security rules. To add an admin, update the `isAdmin()` function in `firestore.rules`:
-
-```javascript
-function isAdmin() {
-  return request.auth != null && (
-    request.auth.token.email == 'admin1@example.com' ||
-    request.auth.token.email == 'admin2@example.com'
-  );
-}
-```
-
 ## Scripts
 
 - `npm run dev` - Start development server

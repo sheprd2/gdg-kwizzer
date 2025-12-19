@@ -13,9 +13,7 @@ import {
 } from 'firebase/auth'
 import { doc, getDoc, setDoc } from 'firebase/firestore'
 import { auth, db } from "../firebase.config";
-import { User, UserRole } from '../types/firebase'
-
-const ADMIN_EMAIL = 'samchalissery24bcs41@iiitkottayam.ac.in'
+import { User } from '../types/firebase'
 
 function deriveDisplayNameFromEmail(email: string): string {
   const localPart = email.split('@')[0] ?? ''
@@ -29,11 +27,6 @@ function deriveDisplayNameFromEmail(email: string): string {
     .join(' ')
 }
 
-function getRoleForEmail(email?: string): UserRole {
-  if (!email) return 'player'
-  return email.toLowerCase() === ADMIN_EMAIL.toLowerCase() ? 'admin' : 'player'
-}
-
 interface AuthContextValue {
   user: User | null
   firebaseUser: FirebaseUser | null
@@ -42,7 +35,6 @@ interface AuthContextValue {
   signUp: (email: string, password: string, displayName: string) => Promise<User>
   signInWithGoogle: () => Promise<User>
   signOut: () => Promise<void>
-  isAdmin: boolean
 }
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined)
@@ -72,7 +64,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           
           if (userDoc.exists()) {
             const existingUser = userDoc.data() as User
-            const nextRole = getRoleForEmail(fbUser.email ?? existingUser.email)
             const nextDisplayName =
               existingUser.displayName ||
               fbUser.displayName ||
@@ -83,7 +74,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
               ...existingUser,
               email: fbUser.email ?? existingUser.email,
               displayName: nextDisplayName,
-              role: nextRole,
               lastLogin: new Date()
             }
 
@@ -101,7 +91,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
               uid: fbUser.uid,
               email: fbUser.email ?? undefined,
               displayName: displayName,
-              role: getRoleForEmail(fbUser.email ?? undefined),
               createdAt: new Date(),
               lastLogin: new Date()
             }
@@ -142,7 +131,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           uid: result.user.uid,
           email: result.user.email || undefined,
           displayName: result.user.displayName || result.user.email?.split('@')[0] || 'User',
-          role: 'player',
           createdAt: new Date(),
           lastLogin: new Date()
         }
@@ -183,7 +171,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
       }
 
       const email = result.user.email || undefined
-      const role = getRoleForEmail(email)
 
       const derivedName = email ? deriveDisplayNameFromEmail(email) : 'User'
       const displayName = result.user.displayName || derivedName
@@ -201,7 +188,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           ...userData,
           email,
           displayName: userData.displayName || displayName,
-          role,
           lastLogin: new Date()
         }
         await setDoc(doc(db, 'users', result.user.uid), updatedUser)
@@ -213,7 +199,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
           uid: result.user.uid,
           email,
           displayName,
-          role,
           createdAt: new Date(),
           lastLogin: new Date()
         }
@@ -251,7 +236,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
         uid: result.user.uid,
         email: result.user.email || undefined,
         displayName: displayName,
-        role: 'player',
         createdAt: new Date(),
         lastLogin: new Date()
       }
@@ -292,7 +276,6 @@ export function AuthProvider({ children }: AuthProviderProps) {
     signUp,
     signInWithGoogle,
     signOut,
-    isAdmin: user?.email?.toLowerCase() === ADMIN_EMAIL.toLowerCase()
   }
 
   return (
