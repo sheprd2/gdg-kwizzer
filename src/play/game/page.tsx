@@ -205,7 +205,7 @@ export default function GamePage() {
             <div className="game-timer">Time: {timeLeft}s</div>
           </div>
 
-          <QuestionText text={question.text} />
+          {/* <QuestionText text={question.text} /> */}
 
           <div className="game-options-grid">
             {question.options.map((option, index) => (
