@@ -1,0 +1,63 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is admin
+    function isAdmin() {
+      return request.auth != null && (
+        request.auth.token.email == 'samchalissery24bcs41@iiitkottayam.ac.in' ||
+        request.auth.token.email == 'mathew2103@gmail.com'
+      );
+    }
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && request.auth.uid == userId;
+    }
+
+    // Quizzes collection
+    match /quizzes/{quizId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin() && request.resource.data.createdBy == request.auth.uid;
+      allow update, delete: if isAdmin() && resource.data.createdBy == request.auth.uid;
+    }
+
+    // Games collection
+    match /games/{gameId} {
+      allow read: if isAuthenticated();
+      allow create: if isAdmin() && request.resource.data.hostId == request.auth.uid;
+      allow update: if isAdmin() && resource.data.hostId == request.auth.uid;
+      allow delete: if isAdmin() && resource.data.hostId == request.auth.uid;
+
+      // Players subcollection - any authenticated user can join
+      match /players/{playerId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated() && playerId == request.auth.uid;
+        allow update, delete: if isAuthenticated() && (isAdmin() || playerId == request.auth.uid);
+      }
+
+      // Answers subcollection - any authenticated user can submit answers
+      match /answers/{answerId} {
+        allow read: if isAuthenticated();
+        allow create, update: if isAuthenticated();
+      }
+
+      // Leaderboard subcollection
+      match /leaderboard/{leaderboardId} {
+        allow read: if isAuthenticated();
+        allow create, update: if isAuthenticated();
+      }
+    }
+
+    // Deny all other reads and writes
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
