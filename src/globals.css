@@ -1,15 +1,19 @@
 :root {
-  --background: #ffffff;
-  --foreground: #000000;
-  --primary: #000000;
+  --background: #f4f7fb;
+  --foreground: #1f2937;
+
+  --primary: #2f5fa7;
   --primary-foreground: #ffffff;
-  --secondary: #ffffff;
-  --secondary-foreground: #000000;
-  --muted: #ffffff;
-  --muted-foreground: #000000;
-  --border: #000000;
+
+  --secondary: #e9eef6;
+  --secondary-foreground: #1f2937;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #6b7280;
+
+  --border: #d1d9e6;
   --input: #ffffff;
-  --ring: #000000;
+  --ring: #2f5fa7;
 }
 
 *,
@@ -51,6 +55,7 @@ a {
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   gap: 1.5rem;
   width: 100%;
 }
@@ -62,12 +67,12 @@ a {
 }
 
 .join-page-signin-message {
-  color: rgba(0, 0, 0, 0.7);
+  color:#356AA0;
 }
 
 .join-page-signin-button {
   padding: 0.75rem 2rem;
-  background-color: #3b82f6;
+  background-color: #356AA0;
   color: white;
   font-weight: bold;
   border-radius: 0.75rem;
@@ -77,7 +82,7 @@ a {
 }
 
 .join-page-signin-button:hover {
-  background-color: #2563eb;
+  background-color: #356AA0;
 }
 
 .join-form {
@@ -272,7 +277,8 @@ a {
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
+  
 }
 
 .lobby-card {
@@ -341,7 +347,7 @@ a {
 .game-question-container {
   min-height: 100vh;
   padding: 1rem;
-  background-color: white;
+  
 }
 
 .game-question-wrapper {
@@ -401,7 +407,7 @@ a {
 .game-results-container {
   min-height: 100vh;
   padding: 1rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
 }
 
 .game-results-wrapper {
@@ -634,6 +640,7 @@ a {
 
 .app-main {
   width: 100%;
+  background-color: #fff,
 }
 
 .btn {
@@ -1184,6 +1191,7 @@ a {
 .auth-container {
   min-height: 100vh;
   display: flex;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -1211,7 +1219,7 @@ a {
   padding: 0.75rem 1rem;
   border: 2px solid black;
   border-radius: 0.75rem;
-  background-color: transparent;
+  background-color: #D9D9D9;
   color: black;
   font-size: 1rem;
 }
@@ -1281,7 +1289,7 @@ a {
   color: black;
   font-weight: bold;
   border-radius: 0.75rem;
-  background-color: transparent;
+  background-color: #356AA0;
   cursor: pointer;
   transition: background-color 0.2s;
 }
@@ -1338,7 +1346,7 @@ a {
   justify-content: center;
   padding: 1rem;
   gap: 2rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   width: 100%;
 }
 
@@ -1414,7 +1422,7 @@ a {
 }
 
 .home-button-outline:hover {
-  background-color: black;
+  background-color: #356AA0;
   color: white;
 }
 
@@ -1516,7 +1524,7 @@ a {
 .host-setup-container {
   min-height: 100vh;
   padding: 1rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   width: 100%;
   display: flex;
   align-items: center;
@@ -1660,9 +1668,9 @@ a {
   font-size: 1.125rem;
   font-weight: 600;
   border-radius: 0.125rem;
-  background-color: #2563eb;
+  background-color: #356AA0;
   color: white;
-  border: 2px solid #2563eb;
+  border: 2px solid #356AA0;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -1912,7 +1920,7 @@ a {
 .host-lobby-page {
   min-height: 100vh;
   padding: 1rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   width: 100%;
 }
 
@@ -2107,6 +2115,7 @@ a {
   font-size: 1.125rem;
   padding: 1rem;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background-color: #356AA0;
   transition: all 0.2s;
 }
 
@@ -2120,7 +2129,7 @@ a {
 .create-quiz-container {
   min-height: 100vh;
   padding: 1rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   width: 100%;
 }
 
@@ -2352,7 +2361,7 @@ a {
 .quiz-detail-container {
   min-height: 100vh;
   padding: 1rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   width: 100%;
 }
 
@@ -2600,7 +2609,7 @@ a {
 .quizzes-container {
   min-height: 100vh;
   padding: 1rem;
-  background-color: white;
+  background: linear-gradient(180deg, #F2F6FB 0%, #E2EBF5 100%);
   width: 100%;
 }
 
