@@ -1352,7 +1352,7 @@ a {
 
 @media (min-width: 640px) {
   .home-container {
-    padding: 1.5rem;
+    padding: 1.5rem; 
   }
 }
 
